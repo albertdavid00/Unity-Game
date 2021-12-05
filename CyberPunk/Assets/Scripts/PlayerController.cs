@@ -18,6 +18,9 @@ public class PlayerController : MonoBehaviour
     public LayerMask whatIsGround;
 
     public Animator animator;
+
+    public GameObject bullet;
+    public Transform firePoint;
     void Start()
     {
         
@@ -36,7 +39,7 @@ public class PlayerController : MonoBehaviour
         moveInput = horiMove + vertMove;
         moveInput.Normalize();
 
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (Input.GetKey(KeyCode.LeftShift) && !canDoubleJump && canJump)
             moveInput = moveInput * runSpeed;
         else
             moveInput = moveInput * moveSpeed;
@@ -50,7 +53,7 @@ public class PlayerController : MonoBehaviour
             moveInput.y = Physics.gravity.y * gravityModifier * Time.deltaTime;
         }
 
-        canJump = Physics.OverlapSphere(groundCheckPoint.position, 0.15f, whatIsGround).Length > 0;
+        canJump = Physics.OverlapSphere(groundCheckPoint.position, 0.10f, whatIsGround).Length > 0;
         
         if (canJump)
         {
@@ -82,8 +85,30 @@ public class PlayerController : MonoBehaviour
 
         transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y + mouseInput.x, transform.rotation.eulerAngles.z);
         camTransform.rotation = Quaternion.Euler(camTransform.rotation.eulerAngles + new Vector3(-mouseInput.y, 0f, 0f));
-        
+
+        //handle shooting
+        if(Input.GetMouseButtonDown(0))
+        {
+            RaycastHit hit;
+            if(Physics.Raycast(camTransform.position, camTransform.forward, out hit, 50f))  //50f is the distance they Raycast goes, change it accordingly
+            {
+                if(Vector3.Distance(camTransform.position, hit.point) > 2f)
+                {
+                    firePoint.LookAt(hit.point);
+                }
+            }
+            else
+            {
+                firePoint.LookAt(camTransform.position + (camTransform.forward * 30f));
+            }
+
+
+            Instantiate(bullet, firePoint.position, firePoint.rotation);
+        }
+
         animator.SetFloat("moveSpeed", moveInput.magnitude);
         animator.SetBool("onGround", canJump);
+
+        
     }
 }
