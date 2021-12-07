@@ -11,6 +11,8 @@ public class BulletController : MonoBehaviour
 
     public GameObject impactEffect;
 
+    public int damage = 1;
+
 
     // Start is called before the first frame update
     void Start()
@@ -36,7 +38,7 @@ public class BulletController : MonoBehaviour
 
         if(other.gameObject.tag == "Enemy")
         {
-            Destroy(other.gameObject);
+            other.gameObject.GetComponent<EnemyController>().DamageEnemy(damage);
         }
 
         Destroy(gameObject);
