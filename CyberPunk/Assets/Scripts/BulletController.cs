@@ -13,6 +13,8 @@ public class BulletController : MonoBehaviour
 
     public int damage = 1;
 
+    public bool damageEnemy, damagePlayer;
+
 
     // Start is called before the first frame update
     void Start()
@@ -36,9 +38,14 @@ public class BulletController : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
 
-        if(other.gameObject.tag == "Enemy")
+        if(other.gameObject.tag == "Enemy" && damageEnemy)
         {
             other.gameObject.GetComponent<EnemyController>().DamageEnemy(damage);
+        }
+
+        if(other.gameObject.tag == "Player" && damagePlayer)
+        {
+            Debug.Log("Player hit at " + transform.position);
         }
 
         Destroy(gameObject);
