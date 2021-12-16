@@ -55,9 +55,22 @@ public class PlayerHealthController : MonoBehaviour
         }
     }
 
+    public void HealPlayer(int healAmount)
+    {
+        currentHealth += healAmount;
+        if (currentHealth > maxHealth)
+        {
+            currentHealth = maxHealth;
+        }
+
+        UpdateHealthBar();
+    }
+
     private void UpdateHealthBar()
     {
         UIController.instance.healthSlider.value = currentHealth;
         UIController.instance.healthText.text = currentHealth.ToString();
     }
+
+    
 }

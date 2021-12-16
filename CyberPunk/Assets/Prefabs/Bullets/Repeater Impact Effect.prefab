@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5935474351000291703}
   - component: {fileID: 2858496337946127944}
   m_Layer: 0
-  m_Name: Laser Impact Effect
+  m_Name: Repeater Impact Effect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4816,7 +4816,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 3e310ed6f0a44fe40bb105debbb6dcfb, type: 2}
+  - {fileID: 2100000, guid: bf3f3c50f5681fa4ab2c8c7bf1911117, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
