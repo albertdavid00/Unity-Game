@@ -35,11 +35,15 @@ public class PlayerHealthController : MonoBehaviour
         }
     }
 
-    public void DamagePlayer(int damage)
+    public void DamagePlayer(int damageAmount)
     {
-        if (invincibilityCounter <= 0)
+        if (invincibilityCounter <= 0 && !GameManager.instance.levelEnding)
         {
-            currentHealth -= damage;
+            AudioManager.instance.PlaySFX(7);
+
+            currentHealth -= damageAmount;
+
+            UIController.instance.ShowDamage();
 
             if (currentHealth <= 0)
             {
@@ -47,6 +51,10 @@ public class PlayerHealthController : MonoBehaviour
                 currentHealth = 0;
 
                 GameManager.instance.PlayerDied();
+
+                AudioManager.instance.StopBGM();
+                AudioManager.instance.PlaySFX(6);
+                AudioManager.instance.StopSFX(7);
 
             }
 

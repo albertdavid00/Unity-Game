@@ -14,6 +14,7 @@ public class AmmoPickup : MonoBehaviour
             PlayerController.instance.activeGun.getAmmo();
             Destroy(gameObject);
             collected = true;
+            AudioManager.instance.PlaySFX(3);
         }
     }
 }

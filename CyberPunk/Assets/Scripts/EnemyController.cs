@@ -5,7 +5,6 @@ using UnityEngine.AI;
 
 public class EnemyController : MonoBehaviour
 {
-    public int currentHealth = 5;
     public float distanceToChase = 10f, distanceToLose = 15f, distanceToStop = 2f;
     private bool chasing;
 
@@ -23,16 +22,6 @@ public class EnemyController : MonoBehaviour
     private float fireCount, shotWaitCounter, shootTimeCounter;
 
     public Animator anim;
-
-    public void DamageEnemy(int damage)
-    {
-        currentHealth -= damage;
-
-        if (currentHealth <= 0)
-        {
-            Destroy(gameObject);
-        }
-    }
 
     // Start is called before the first frame update
     void Start()

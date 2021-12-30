@@ -31,6 +31,14 @@ public class PlayerController : MonoBehaviour
     public Transform aimPoint, gunHolder;
     public Vector3 gunStartPost;
     public float aimSpeed = 2f;
+
+    public GameObject muzzleFlash;
+
+    public AudioSource footstepFast, footstepSlow;
+
+    private float bounceAmount;
+    private bool bounce;
+
     private void Awake()
     {
         instance = this;
@@ -45,126 +53,140 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        // moveInput.x = Input.GetAxis("Horizontal") * moveSpeed * Time.deltaTime; 
-        // moveInput.z = Input.GetAxis("Vertical") * moveSpeed * Time.deltaTime;
-        // store y velocity
-        float yStore = moveInput.y;
-
-        Vector3 vertMove = transform.forward * Input.GetAxis("Vertical");
-        Vector3 horiMove = transform.right * Input.GetAxis("Horizontal");
-
-        moveInput = horiMove + vertMove;
-        moveInput.Normalize();
-
-        if (Input.GetKey(KeyCode.LeftShift) && !canDoubleJump && canJump)
-            moveInput = moveInput * runSpeed;
-        else
-            moveInput = moveInput * moveSpeed;
-
-        moveInput.y = yStore;
-
-        moveInput.y += Physics.gravity.y * gravityModifier * Time.deltaTime;
-
-        if (charCon.isGrounded)
+        if (!UIController.instance.pauseScreen.activeInHierarchy && !GameManager.instance.levelEnding)
         {
-            moveInput.y = Physics.gravity.y * gravityModifier * Time.deltaTime;
-        }
+            // moveInput.x = Input.GetAxis("Horizontal") * moveSpeed * Time.deltaTime; 
+            // moveInput.z = Input.GetAxis("Vertical") * moveSpeed * Time.deltaTime;
+            // store y velocity
+            float yStore = moveInput.y;
 
-        canJump = Physics.OverlapSphere(groundCheckPoint.position, 0.10f, whatIsGround).Length > 0;
+            Vector3 vertMove = transform.forward * Input.GetAxis("Vertical");
+            Vector3 horiMove = transform.right * Input.GetAxis("Horizontal");
 
-        if (canJump)
-        {
-            canDoubleJump = false;
-        }
-        // Handle Jumping
+            moveInput = horiMove + vertMove;
+            moveInput.Normalize();
 
-        // Double Jump not working
-        if (Input.GetKeyDown(KeyCode.Space) && canJump)
-        {
-            moveInput.y = jumpPower;
+            if (Input.GetKey(KeyCode.LeftShift) && !canDoubleJump && canJump)
+                moveInput = moveInput * runSpeed;
+            else
+                moveInput = moveInput * moveSpeed;
 
-            canDoubleJump = true;
-        } else if (canDoubleJump && Input.GetKeyDown(KeyCode.Space))
-        {
-            moveInput.y = jumpPower;
-            canDoubleJump = false;
-        }
-        charCon.Move(moveInput * Time.deltaTime);
+            moveInput.y = yStore;
 
-        // control camera rotation
-        Vector2 mouseInput = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y") * mouseSensitivity);
+            moveInput.y += Physics.gravity.y * gravityModifier * Time.deltaTime;
 
-        if (invertX)
-            mouseInput.x = -mouseInput.x;
-
-        if (invertY)
-            mouseInput.y = -mouseInput.y;
-
-        transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y + mouseInput.x, transform.rotation.eulerAngles.z);
-        camTransform.rotation = Quaternion.Euler(camTransform.rotation.eulerAngles + new Vector3(-mouseInput.y, 0f, 0f));
-
-        //handle shooting
-        //one shot/ first shot
-        if (Input.GetMouseButtonDown(0) && activeGun.fireCounter <= 0)
-        {
-            RaycastHit hit;
-            if (Physics.Raycast(camTransform.position, camTransform.forward, out hit, 50f))  //50f is the distance they Raycast goes, change it accordingly
+            if (charCon.isGrounded)
             {
-                if (Vector3.Distance(camTransform.position, hit.point) > 2f)
+                moveInput.y = Physics.gravity.y * gravityModifier * Time.deltaTime;
+            }
+
+            canJump = Physics.OverlapSphere(groundCheckPoint.position, 0.10f, whatIsGround).Length > 0;
+
+            if (canJump)
+            {
+                canDoubleJump = false;
+            }
+            // Handle Jumping
+
+            // Double Jump not working
+            if (Input.GetKeyDown(KeyCode.Space) && canJump)
+            {
+                moveInput.y = jumpPower;
+                canDoubleJump = true;
+                AudioManager.instance.PlaySFX(8);
+            }
+            else if (canDoubleJump && Input.GetKeyDown(KeyCode.Space))
+            {
+                moveInput.y = jumpPower;
+                canDoubleJump = false;
+                AudioManager.instance.PlaySFX(8);
+            }
+
+            if (bounce)
+            {
+                bounce = false;
+                moveInput.y = bounceAmount;
+
+                canDoubleJump = true;
+            }
+
+            charCon.Move(moveInput * Time.deltaTime);
+
+            // control camera rotation
+            Vector2 mouseInput = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y") * mouseSensitivity);
+
+            if (invertX)
+                mouseInput.x = -mouseInput.x;
+
+            if (invertY)
+                mouseInput.y = -mouseInput.y;
+
+            transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y + mouseInput.x, transform.rotation.eulerAngles.z);
+            camTransform.rotation = Quaternion.Euler(camTransform.rotation.eulerAngles + new Vector3(-mouseInput.y, 0f, 0f));
+            muzzleFlash.SetActive(false);
+
+            //handle shooting
+            //one shot/ first shot
+            if (Input.GetMouseButtonDown(0) && activeGun.fireCounter <= 0)
+            {
+                RaycastHit hit;
+                if (Physics.Raycast(camTransform.position, camTransform.forward, out hit, 50f))  //50f is the distance they Raycast goes, change it accordingly
                 {
-                    firePoint.LookAt(hit.point);
+                    if (Vector3.Distance(camTransform.position, hit.point) > 2f)
+                    {
+                        firePoint.LookAt(hit.point);
+                    }
                 }
+                else
+                {
+                    firePoint.LookAt(camTransform.position + (camTransform.forward * 30f));
+                }
+
+
+                FireShot();
+            }
+
+
+            //autofire
+            if (Input.GetMouseButton(0) && activeGun.canAutoFire)
+            {
+                if (activeGun.fireCounter <= 0)
+                {
+                    FireShot();
+                }
+            }
+
+            if (Input.GetKeyDown(KeyCode.Tab))
+            {
+                SwitchGun();
+                Debug.Log("switched");
+            }
+
+
+            if (Input.GetMouseButtonDown(1))
+            {
+                Debug.Log("switched");
+                CameraController.instace.ZoomIn(activeGun.zoomAmount);
+            }
+
+            if (Input.GetMouseButton(1))
+            {
+                gunHolder.position = Vector3.MoveTowards(gunHolder.position, aimPoint.position, aimSpeed * Time.deltaTime);
             }
             else
             {
-                firePoint.LookAt(camTransform.position + (camTransform.forward * 30f));
+                gunHolder.localPosition = Vector3.MoveTowards(gunHolder.localPosition, gunStartPost, aimSpeed * Time.deltaTime);
             }
 
-
-            FireShot();
-        }
-
-
-        //autofire
-        if (Input.GetMouseButton(0) && activeGun.canAutoFire)
-        {
-            if (activeGun.fireCounter <= 0)
+            if (Input.GetMouseButtonUp(1))
             {
-                FireShot();
+                CameraController.instace.ZoomOut();
             }
-        }
 
-        if (Input.GetKeyDown(KeyCode.Tab))
-        {
-            SwitchGun();
-            Debug.Log("switched");
-        }
+            animator.SetFloat("moveSpeed", moveInput.magnitude);
+            animator.SetBool("onGround", canJump);
 
-
-        if (Input.GetMouseButtonDown(1))
-        {
-            Debug.Log("switched");
-            CameraController.instace.ZoomIn(activeGun.zoomAmount);
         }
-
-        if (Input.GetMouseButton(1))
-        {
-            gunHolder.position = Vector3.MoveTowards(gunHolder.position, aimPoint.position, aimSpeed * Time.deltaTime);
-        }
-        else
-        {
-            gunHolder.localPosition = Vector3.MoveTowards(gunHolder.localPosition, gunStartPost, aimSpeed * Time.deltaTime);
-        }
-
-        if (Input.GetMouseButtonUp(1))
-        {
-            CameraController.instace.ZoomOut();
-        }
-
-        animator.SetFloat("moveSpeed", moveInput.magnitude);
-        animator.SetBool("onGround", canJump);
-        
-        
     }
 
     public void FireShot()
@@ -175,6 +197,7 @@ public class PlayerController : MonoBehaviour
             Instantiate(activeGun.bullet, firePoint.position, firePoint.rotation);
             activeGun.fireCounter = activeGun.fireRate;
             UIController.instance.ammoText.text = "AMMMO: " + activeGun.currentAmmo;
+            muzzleFlash.SetActive(true);
         }
     }
 
@@ -212,5 +235,11 @@ public class PlayerController : MonoBehaviour
             currentGun = allGuns.Count - 2;
             SwitchGun();
         }
+    }
+
+    public void Bounce(float bounceForce)
+    {
+        bounceAmount = bounceForce;
+        bounce = true;
     }
 }
