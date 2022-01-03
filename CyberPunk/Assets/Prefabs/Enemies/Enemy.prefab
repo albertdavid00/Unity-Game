@@ -231,6 +231,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentHealth: 100
+  enemyController: {fileID: 8042739725021488928}
 --- !u!1001 &8042739723454671248
 PrefabInstance:
   m_ObjectHideFlags: 0
