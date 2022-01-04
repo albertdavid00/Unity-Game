@@ -12,6 +12,7 @@ public class UIController : MonoBehaviour
     public Text healthText, ammoText;
 
     public Image damageEffect;
+    
     public float damageAlpha = .5f, damageFadeSpeed = .5f;
 
     public GameObject pauseScreen;
