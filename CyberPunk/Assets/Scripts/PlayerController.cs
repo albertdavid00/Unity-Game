@@ -76,16 +76,20 @@ public class PlayerController : MonoBehaviour
 
             moveInput.y += Physics.gravity.y * gravityModifier * Time.deltaTime;
 
+            canJump = false;
+
             if (charCon.isGrounded)
             {
                 moveInput.y = Physics.gravity.y * gravityModifier * Time.deltaTime;
+                canJump = true;
             }
-
-            canJump = Physics.OverlapSphere(groundCheckPoint.position, 0.10f, whatIsGround).Length > 0;
+            //????
+            //canJump = Physics.OverlapSphere(groundCheckPoint.position, 0.10f, whatIsGround).Length > 0;
 
             if (canJump)
             {
                 canDoubleJump = false;
+                
             }
             // Handle Jumping
 
