@@ -1222,6 +1222,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b062b57abfa49654ea8ed6b993dbd6a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timeManager: {fileID: 0}
   moveSpeed: 8
   gravityModifier: 2
   jumpPower: 10
@@ -1252,6 +1253,7 @@ MonoBehaviour:
   muzzleFlash: {fileID: 7031937365775063962}
   footstepFast: {fileID: 7031937367244636312}
   footstepSlow: {fileID: 7031937366672980362}
+  maxViewAngle: 60
 --- !u!95 &7031937367490959379
 Animator:
   serializedVersion: 3

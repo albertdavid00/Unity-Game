@@ -4865,11 +4865,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ac7e39426451c7458f8f7881f4f4ef1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 15
+  moveSpeed: 50
   lifetime: 5
   theRB: {fileID: 6671980571654591386}
   impactEffect: {fileID: 1722343113027509666, guid: c1dbaf05e9ccf9d4b90935c10ae9c13a, type: 3}
-  damage: 1
+  damage: 300
   damageEnemy: 1
   damagePlayer: 0
 --- !u!54 &6671980571654591386

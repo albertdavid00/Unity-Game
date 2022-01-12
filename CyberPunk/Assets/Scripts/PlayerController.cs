@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public static PlayerController instance;
+    public TimeManager timeManager;
 
     public float moveSpeed, gravityModifier, jumpPower, runSpeed = 12.0f;
     public CharacterController charCon;
@@ -66,6 +67,9 @@ public class PlayerController : MonoBehaviour
 
             moveInput = horiMove + vertMove;
             moveInput.Normalize();
+            
+            if (Input.GetKey(KeyCode.Backspace))
+                timeManager.DoSlowmotion();
 
             if (Input.GetKey(KeyCode.LeftShift) && !canDoubleJump && canJump)
                 moveInput = moveInput * runSpeed;

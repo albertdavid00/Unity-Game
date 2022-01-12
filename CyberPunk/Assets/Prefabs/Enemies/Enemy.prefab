@@ -169,14 +169,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da5f6d1f27d6d52468b0b7d1be7c0886, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  distanceToChase: 10
-  distanceToLose: 15
-  distanceToStop: 2
+  distanceToChase: 20
+  distanceToLose: 25
+  distanceToStop: 5
   agent: {fileID: 8042739725021488938}
-  keepChasingTime: 5
+  keepChasingTime: 10
   bullet: {fileID: 490764690615760042, guid: 7f40f9d82fc82534e9ce9c80af313b6e, type: 3}
   firePoint: {fileID: 8042739724908696632}
-  fireRate: 0.3
+  fireRate: 0.2
   waitBetweenShots: 1
   timeToShoot: 1
   anim: {fileID: 8042739723462024432}
