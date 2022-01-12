@@ -108,8 +108,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bullet: {fileID: 1989788870001918395, guid: e78529280914b25439512e180c6310dc, type: 3}
-  rangeToTargetPlayer: 10
-  timeBetweenShots: 0.5
+  rangeToTargetPlayer: 40
+  timeBetweenShots: 0.25
   gun: {fileID: 2239574823744034721}
   firepoint: {fileID: 2611530025740446700}
   rotateSpeed: 2.5
