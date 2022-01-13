@@ -19,6 +19,8 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
+
+        Cursor.visible = false;
     }
 
     // Update is called once per frame
@@ -50,6 +52,7 @@ public class GameManager : MonoBehaviour
         {
             UIController.instance.pauseScreen.SetActive(false);
             Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
             Time.timeScale = 1f;
             PlayerController.instance.footstepFast.Play();
             PlayerController.instance.footstepSlow.Play();
@@ -58,6 +61,7 @@ public class GameManager : MonoBehaviour
         {
             UIController.instance.pauseScreen.SetActive(true);
             Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = false;
             Time.timeScale = 0f;
             PlayerController.instance.footstepFast.Stop();
             PlayerController.instance.footstepSlow.Stop();
