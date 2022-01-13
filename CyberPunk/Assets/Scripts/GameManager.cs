@@ -61,7 +61,7 @@ public class GameManager : MonoBehaviour
         {
             UIController.instance.pauseScreen.SetActive(true);
             Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = false;
+            Cursor.visible = true;
             Time.timeScale = 0f;
             PlayerController.instance.footstepFast.Stop();
             PlayerController.instance.footstepSlow.Stop();
