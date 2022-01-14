@@ -13201,6 +13201,52 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 38340858b0ea972418caaa3087ea0541, type: 3}
+--- !u!1 &387102734
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 387102736}
+  - component: {fileID: 387102735}
+  m_Layer: 0
+  m_Name: TimeManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &387102735
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 387102734}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffbe9c90b4cc42f4ba7c5b4bd9eab625, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slowdownFactor: 0.3
+  slowdownLength: 3
+  slowMoActive: 0
+--- !u!4 &387102736
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 387102734}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2861.3962, y: -356.27927, z: 635.83466}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 17
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &398628423
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -55840,6 +55886,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1688829747}
     m_Modifications:
+    - target: {fileID: 3657725429700861773, guid: c93c8d63df85b734b88b2efecec323d7, type: 3}
+      propertyPath: timeManager
+      value: 
+      objectReference: {fileID: 387102735}
     - target: {fileID: 3657725429700861775, guid: c93c8d63df85b734b88b2efecec323d7, type: 3}
       propertyPath: m_LocalPosition.x
       value: -15.5
@@ -55883,6 +55933,10 @@ PrefabInstance:
     - target: {fileID: 3657725430830252890, guid: c93c8d63df85b734b88b2efecec323d7, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3657725430830252893, guid: c93c8d63df85b734b88b2efecec323d7, type: 3}
+      propertyPath: nextLevel
+      value: BeginnerLevel
       objectReference: {fileID: 0}
     - target: {fileID: 3657725430830252895, guid: c93c8d63df85b734b88b2efecec323d7, type: 3}
       propertyPath: m_LocalScale.x
