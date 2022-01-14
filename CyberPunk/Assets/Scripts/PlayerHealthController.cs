@@ -8,7 +8,7 @@ public class PlayerHealthController : MonoBehaviour
     public static PlayerHealthController instance;
 
     public int maxHealth, currentHealth;
-
+    public int loadGameHP = 0;
     public float invincibleTime = 1f;
     private float invincibilityCounter;
 
@@ -20,11 +20,15 @@ public class PlayerHealthController : MonoBehaviour
     void Start()
     {
         currentHealth = maxHealth;
-
+        Debug.Log(currentHealth);
+        if(loadGameHP != 0) {
+            currentHealth = loadGameHP;
+        }
         //setting health bar values
         UIController.instance.healthSlider.maxValue = maxHealth;
         UpdateHealthBar();
     }
+
 
     // Update is called once per frame
     void Update()

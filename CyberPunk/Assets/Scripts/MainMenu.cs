@@ -6,11 +6,19 @@ using UnityEngine.SceneManagement;
 public class MainMenu : MonoBehaviour
 {
     public string firstLevel;
+    public PlayerData data;
+    public bool loadGame = false;
 
     // Start is called before the first frame update
     void Start()
     {
         
+    }
+
+    void OnEnable()
+    {
+        Debug.Log("OnEnable called");
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     // Update is called once per frame
@@ -33,9 +41,19 @@ public class MainMenu : MonoBehaviour
     public void LoadData()
     {
         Debug.Log("Loading data...");
-        PlayerData data = SaveData.LoadPlayer();
+        data = SaveData.LoadPlayer();
+        loadGame = true;
+        
         SceneManager.LoadScene(data.currentLevel);
-        PlayerHealthController.instance.currentHealth = data.health;
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        Debug.Log("OnSceneLoaded: " + scene.name);
+        Debug.Log(mode);
+        Debug.Log(data.health);
+        if(loadGame) {
+            PlayerHealthController.instance.loadGameHP = data.health;
 
         Vector3 position;
         position.x = data.positionX;
@@ -63,6 +81,8 @@ public class MainMenu : MonoBehaviour
                     break;
             }
         }
+        }
+        loadGame = false;
     }
 
 }
