@@ -83,6 +83,7 @@ public class MainMenu : MonoBehaviour
         }
         }
         loadGame = false;
+        Time.timeScale = 1f;
     }
 
 }
