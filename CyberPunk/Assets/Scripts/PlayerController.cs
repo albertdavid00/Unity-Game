@@ -150,12 +150,9 @@ public class PlayerController : MonoBehaviour
             if (Input.GetMouseButtonDown(0) && activeGun.fireCounter <= 0)
             {
                 RaycastHit hit;
-                if (Physics.Raycast(camTransform.position, camTransform.forward, out hit, 50f))  //50f is the distance they Raycast goes, change it accordingly
+                if (Physics.Raycast(camTransform.position, camTransform.forward, out hit, 5000f)) 
                 {
-                    if (Vector3.Distance(camTransform.position, hit.point) > 2f)
-                    {
-                        firePoint.LookAt(hit.point);
-                    }
+                    firePoint.LookAt(hit.point);
                 }
                 else
                 {
