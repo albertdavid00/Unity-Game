@@ -24,6 +24,11 @@ public class PauseScreen : MonoBehaviour
         GameManager.instance.PauseUnpause();
     }
 
+    public void SaveGame()
+    {
+        SaveData.SavePlayer();
+    }
+
     public void MainMenu()
     {
         SceneManager.LoadScene(mainMenuScene);
